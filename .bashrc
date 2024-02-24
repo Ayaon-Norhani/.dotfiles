@@ -5,7 +5,7 @@
 # If not running interactively, don't do anything
 case $- in
     *i*) ;;
-    *) return;;
+      *) return;;
 esac
 
 # don't put duplicate lines or lines starting with space in the history.
@@ -40,14 +40,6 @@ case "$TERM" in
     xterm-color|*-256color) color_prompt=yes;;
 esac
 
-# If this is an xterm set the title to user@host:dir
-case "$TERM" in
-    xterm*|rxvt*)
-        PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
-        ;;
-    *)
-        ;;
-esac
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
@@ -69,10 +61,7 @@ alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
 
-alias vim='nvim'
-
-alias ipdocker='docker inspect -f "{{.Name}}:{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}" $(docker ps -q) | sed "s/\///" | sed "s/:/\t/"'
-
+# Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
@@ -99,11 +88,11 @@ parse_git_branch() {
 
 if [ "$color_prompt" = yes ]; then
     # User
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[1;90m\033[107m 🐷 \u@\h'
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[1;90m\033[107m 🏁 \u@\h'
     PS1+='\[\033[1;97m\033[44m█'
 
     # Directory
-    PS1+=' 🖿  \w'
+    PS1+='\033[1;30m\033[44m 🏎  \033[1;97m\033[44m\w'
     PS1+='\[\033[0;34m█'
 
     # Branch
@@ -117,61 +106,33 @@ else
 fi
 unset color_prompt force_color_prompt
 
-
-# Ignore Case
-bind 'set completion-ignore-case on'
-
-# direnv
-eval "$(direnv hook bash)"
-
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
 if ! shopt -oq posix; then
-    if [ -f /usr/share/bash-completion/bash_completion ]; then
-        . /usr/share/bash-completion/bash_completion
-    elif [ -f /etc/bash_completion ]; then
-        . /etc/bash_completion
-    fi
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+  fi
 fi
-
-# Cargo PATH
-export PATH=$PATH:/home/user/.cargo/bin
-
-# NVIM PATH
-export PATH=$PATH:/usr/local/nvim/bin
-
-# NEOVIM EDITOR
-export VISUAL=nvim
-export EDITOR="$VISUAL"
-
-# GO ENV
-export PATH=$PATH:/usr/local/go/bin
-
-# JAVA ENV
-export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
-export PATH=$PATH:/usr/lib/jvm/java-8-openjdk-amd64/bin
-
-# I don't know what this is for
-export PDSH_RCMD_TYPE=ssh
-
-# bun
-export BUN_INSTALL="$HOME/.bun"
-export PATH=$BUN_INSTALL/bin:$PATH
-
-export N_PREFIX="$HOME/n"; [[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH+=":$N_PREFIX/bin"  # Added by n-install (see http://git.io/n-install-repo).
 
 random_number1=$((1 + RANDOM % 6))
 random_number2=$((1 + RANDOM % 6))
 C1='\033[1;9'$random_number1'm'
 C2='\033[1;9'$random_number2'm'
-echo -e ${C1}' __       ______  __   __'            ${C2}'   ______     ___   ___  ___'
-echo -e ${C1}'/\\ \\     /\\  ___\\/\\ \\__\\ \\'   ${C2}' /\\  __ \\   /  _`./\\  `.\\  \\'
-echo -e ${C1}'\\ \\ \\    \\ \\ \\___\\ \\__  __\\' ${C2}'\\ \\ \\_\\ \\_/\\  \\\\ \\ \\   `\\  \\'
-echo -e ${C1}' \\ \\ \\    \\ \\  ___\\/_/\\ \\/'   ${C2}'  \\ \\  ___ \\ \\  __ \\ \\       \\'
-echo -e ${C1}'  \\ \\ \\____\\ \\ \\____ \\ \\ \\'  ${C2}'   \\ \\ \\__\\ \\ \\ \\/\\ \\ \\ `.    \\'
-echo -e ${C1}'   \\ \\______\\ \\_____\\ \\ \\_\\'  ${C2}'   \\ \\______\\ \\_\\ \\_\\ \\_\\ `.__\\'
-echo -e ${C1}'    \\/______/\\/_____/  \\/_/'       ${C2}'    \\/______/\\/_/\\/_/\\/_/`./__/'
+
+echo -e ${C1}'  ____   ___    __   _   ' ${C2}        '___  __   __ '
+echo -e ${C1}' / ___| | . |  |  \ | |' ${C2}        '|  _ \ \.\ /./ '
+echo -e ${C1}'|.|      | |   | . \| |' ${C2}        '|.| | | \ V /  '
+echo -e ${C1}'| |___   |.|   | |\ . |' ${C2}        '| | | |  | |   '
+echo -e ${C1}' \____| |___|  |_| \__|' ${C2}        '|____/   |_|   '
 echo ""
 unset C1 C2 random_number1 random_number2
 
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+                          
