@@ -5,6 +5,7 @@
 alias pbcopy='xsel --input --clipboard'
 alias pbpaste='xsel --output --clipboard'
 
+
 # If not running interactively, don't do anything
 case $- in
     *i*) ;;
@@ -139,3 +140,5 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
                           
+# Font installation script
+#sudo apt install fonts-noto
